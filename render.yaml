@@ -11,22 +11,28 @@ services:
         sync: false
       - key: OPENROUTER_API_KEY
         sync: false
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
       - key: LLM_MODEL
         value: meta-llama/llama-3.1-8b-instruct
       - key: PROXY_GATEWAY
         sync: false
       - key: FORM_SELECTOR
-        value: div[role="radio"]
+        value: 'div[role="radio"]'
       - key: SUBMIT_SELECTOR
-        value: div[role="button"]
+        value: 'div[role="button"]'
+      - key: SUCCESS_SELECTOR
+        value: ''
       - key: SUCCESS_TEXT
         value: Your response has been recorded
-      - key: HEADLESS
-        value: "true"
       - key: MAX_CONCURRENT_JOBS
         value: "1"
       - key: MAX_RETRIES_PER_SUBMISSION
         value: "3"
+      - key: SUBMISSION_TIMEOUT_SEC
+        value: "90"
+      - key: HEADLESS
+        value: "true"
       - key: CHROME_BIN
         value: /usr/bin/chromium
       - key: CHROMEDRIVER_PATH

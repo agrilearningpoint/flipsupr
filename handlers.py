@@ -85,32 +85,24 @@ async def submit_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             await _reply(update, "Count must be an integer.")
             return
 
+    import asyncio
+
     bot = context.application.bot
+    # Capture PTB's running loop here. The worker thread that executes Selenium
+    # jobs does not have its own current event loop on Python 3.11+.
+    notify_loop = asyncio.get_running_loop()
 
     def progress_sync(msg: str) -> None:
-        import asyncio
-
         try:
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                asyncio.run_coroutine_threadsafe(
-                    bot.send_message(
-                        chat_id=chat_id,
-                        text=msg,
-                        parse_mode=ParseMode.MARKDOWN,
-                        disable_web_page_preview=True,
-                    ),
-                    loop,
-                )
-            else:
-                loop.run_until_complete(
-                    bot.send_message(
-                        chat_id=chat_id,
-                        text=msg,
-                        parse_mode=ParseMode.MARKDOWN,
-                        disable_web_page_preview=True,
-                    )
-                )
+            asyncio.run_coroutine_threadsafe(
+                bot.send_message(
+                    chat_id=chat_id,
+                    text=msg,
+                    parse_mode=ParseMode.MARKDOWN,
+                    disable_web_page_preview=True,
+                ),
+                notify_loop,
+            )
         except Exception as exc:
             logger.warning("progress notify failed: %s", exc)
 

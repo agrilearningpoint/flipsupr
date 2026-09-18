@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.log
+*.zip
+.venv/
+venv/
+formpilot_ud_*/
+formpilot_ext_*/
+.pytest_cache/
+.mypy_cache/
+.DS_Store
