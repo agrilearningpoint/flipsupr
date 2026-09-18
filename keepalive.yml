@@ -1,0 +1,21 @@
+name: Render Keepalive
+
+on:
+  schedule:
+    - cron: "*/14 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping FormPilot
+        env:
+          APP_URL: ${{ secrets.FORMPILOT_URL }}
+        run: |
+          if [ -z "$APP_URL" ]; then
+            echo "Set repository secret FORMPILOT_URL to https://your-service.onrender.com"
+            exit 0
+          fi
+          curl -fsS -o /dev/null -w "%{http_code}\n" "$APP_URL/healthz" || true
+          curl -fsS -o /dev/null -w "%{http_code}\n" "$APP_URL/" || true

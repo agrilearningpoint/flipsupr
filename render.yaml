@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: formpilot
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: WEBHOOK_URL
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: meta-llama/llama-3.1-8b-instruct
+      - key: PROXY_GATEWAY
+        sync: false
+      - key: FORM_SELECTOR
+        value: div[role="radio"]
+      - key: SUBMIT_SELECTOR
+        value: div[role="button"]
+      - key: SUCCESS_TEXT
+        value: Your response has been recorded
+      - key: HEADLESS
+        value: "true"
+      - key: MAX_CONCURRENT_JOBS
+        value: "1"
+      - key: MAX_RETRIES_PER_SUBMISSION
+        value: "3"
+      - key: CHROME_BIN
+        value: /usr/bin/chromium
+      - key: CHROMEDRIVER_PATH
+        value: /usr/bin/chromedriver
